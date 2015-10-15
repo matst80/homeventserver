@@ -1,0 +1,24 @@
+<html>
+<head>
+  <title>Home console</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+
+    socket.on('evt',function(data) {
+      console.log(data);
+    });
+
+    function sendEvent(evt,data) {
+      socket.emit('evt',{evt:evt,data:data});
+    }
+
+      sendEvent('Light1',{state:'ON'});
+      sendEvent('Light2',{state:'ON'});
+      sendEvent('Light2',{state:'OFF'});
+  </script>
+</head>
+<body>
+
+</body>
+</html>
