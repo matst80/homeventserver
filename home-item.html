@@ -1,0 +1,17 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<polymer-element name="home-item">
+  <template>
+    <paper-card heading="{{name}}">
+    <div class="card-content">{{description}}</div>
+    <div class="card-actions">
+    <paper-button>Turn on</paper-button>
+    <paper-button>Turn off</paper-button>
+    </div>
+    </paper-card>
+  </template>
+  <script>
+     Polymer({
+       is:'home-item'
+     });
+   </script>
+ </polymer-element>

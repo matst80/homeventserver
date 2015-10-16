@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var bodyParser = require('body-parser')
@@ -30,7 +31,7 @@ var opt = {
  };
 
 
-
+var items = {};
 var eventLog = [];
 var eventPers = {};
 var maxLen = 4096;
@@ -74,7 +75,7 @@ function registerHandler(id,d) {
   if (d.init) {
     d.init(evt,function(itms) {
       for(var i in itms) {
-        eventPers[i] = itms[i];
+        items[i] = itms[i];
       };
     });
   }
@@ -146,6 +147,8 @@ setInterval(function() {
   evt.emit('timedevent',new Date());
 },5000);
 
+app.use(express.static('./'));
+
 app.get('/', function(req, res){
   res.sendFile('index.html',opt,function(err) {
     if (err) {
@@ -159,16 +162,25 @@ app.get('/api/:cmd',function(req,res) {
   console.log(req.params.cmd);
   switch(req.params.cmd) {
     case 'all':
-      res.send(eventPers);
+      res.json(eventPers);
     break;
     case 'log':
-      res.send(eventLog);
+      res.json(eventLog);
     break;
     case 'bindings':
-      res.send(bindings);
+      res.json(bindings);
+    break;
+    case 'items':
+      var it = [];
+      for(var i in items) {
+        var d = items[i];
+        d.id = i;
+        it.push(d);
+      }
+      res.json(it);
     break;
     default:
-      res.send({});
+      res.json({});
   }
 });
 

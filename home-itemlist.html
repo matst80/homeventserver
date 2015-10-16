@@ -1,0 +1,23 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-ajax/iron-ajax.html">
+<polymer-element name="home-itemlist">
+
+  <template>
+    <iron-ajax url="/api/items" last-response="{{data}}" handle-as="json" auto></iron-ajax>
+      <template is="dom-repeat" items="[[data]]">
+        <span>item [[item.id]]</span>
+        <home-item item="{{item}}">
+      </template>
+  </template>
+  <script>
+
+     Polymer({
+       is:'home-itemlist',
+       ready: function() {
+
+       }
+     });
+
+   </script>
+
+ </polymer-element>
